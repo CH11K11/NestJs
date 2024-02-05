@@ -1,0 +1,48 @@
+
+### create
+POST http://localhost:3000/ticket/create
+Content-Type: application/json
+
+
+{
+    "title":"title3",
+    "description":"test3",
+    "status":"pending",
+    "createdAt":"2000-01-01 00:00:00",
+    "updatedAt":"2000-01-01 00:00:00"
+}
+
+
+### get
+GET http://localhost:3000/ticket/1
+
+
+
+### get by status
+GET http://localhost:3000/ticket?status=pending
+
+
+
+### remove
+DELETE http://localhost:3000/ticket/remove/2
+
+
+###update
+PATCH http://localhost:3000/ticket/update/1
+Content-Type: application/json
+
+
+{
+    "title":"test",
+    "description":"none"
+}
+
+
+###update status
+PATCH http://localhost:3000/ticket/update/status/1
+Content-Type: application/json
+
+
+{
+    "status":"approved"
+}
