@@ -16,14 +16,14 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { SignInUserDto } from './dtos/sign-in-user.dto';
 import { UserService } from './user.service';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorator/current-user.decorator';
 import { User } from './user.entity';
 import { AuthGuard } from './guard/auth.guard';
 
-
+@Serialize(UserDto)
 @Controller('auth')
 export class UserController {
     
@@ -32,13 +32,13 @@ export class UserController {
         private authService: AuthService
     ){}
     
-    @Serialize(UserDto)
+
     @Get('/whoami')
     whoAmI(@Session() session:any){
         return this.userService.findOne(session.userId);
     }
     
-    @Serialize(UserDto)
+   @Serialize(UserDto)
     @Post('/signup')
     async createUser(@Body() body: CreateUserDto, @Session() session:any){
         const user = await this.authService.signUp(body.username, body.password, body.createdAt, body.updatedAt);
@@ -46,7 +46,7 @@ export class UserController {
         return user;
     }
 
-    @Serialize(UserDto)
+//    @Serialize(UserDto)
     @Post('/signin')
     async signin(@Body() body: SignInUserDto, @Session() session:any){
         const user = await this.authService.signin(body.username, body.password);
@@ -61,7 +61,7 @@ export class UserController {
     }
 
 
-    @Serialize(UserDto)
+//    @Serialize(UserDto)
     @Get('/:id')
     async findUserbyId(@Param('id') id: string){
         console.log('test2');
@@ -73,7 +73,7 @@ export class UserController {
 
     }
 
-    @Serialize(UserDto)
+//    @Serialize(UserDto)
     @Get()
     findAllUsers(@Query('username') username: string){
         return this.userService.find(username);
@@ -85,7 +85,7 @@ export class UserController {
         return this.userService.remove(parseInt(id));
     }
 
-    @Serialize(UserDto)
+//    @Serialize(UserDto)
     @Patch('/:id')
     updateUser(@Param('id') id: string, @Body() body: UpdateUserDto){
         return this.userService.update(parseInt(id), body);
