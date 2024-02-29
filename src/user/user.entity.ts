@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Exclude } from "class-transformer";
+import { Report } from "src/report/report.entity";
 
 
 @Entity()
@@ -18,4 +19,7 @@ export class User {
 
     @Column()
     updatedAt: Date;
+
+    @OneToMany(() => Report, (report) => report.user)
+    reports: Report[];
 }

@@ -8,6 +8,6 @@ async function bootstrap() {
   // app.use(cookieSession({
   //   keys: ['qwe']
   // }))
-  // await app.listen(3000);
+  await app.listen(3000);
 }
 bootstrap();

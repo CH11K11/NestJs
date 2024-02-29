@@ -2,15 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Report } from './report.entity';
+import { CreateReportDto } from './dtos/create.report.dto';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class ReportService {
 
     constructor(@InjectRepository(Report) private repo: Repository<Report>){}
 
-    create(title: string, description: string, status: string, createdAt: Date, updatedAt: Date){
-        const report = this.repo.create({title, description, status, createdAt, updatedAt});
-
+    create(reportDto: CreateReportDto, user: User){
+        const report = this.repo.create(this.repo.create(reportDto));
+        report.user = user;
         return this.repo.save(report);
     }
 

@@ -7,12 +7,18 @@ import {
     Param, 
     Query, 
     Delete, 
-    NotFoundException
+    NotFoundException,
+    UseGuards
 } from '@nestjs/common';
 import { CreateReportDto } from './dtos/create.report.dto';
 import { UpdateReportDto } from './dtos/update.report'; 
 import { UpdateStatusDto } from './dtos/update.status.dto';
 import { ReportService } from './report.service';
+import { AuthGuard } from 'src/guard/auth.guard';
+import { CurrentUser } from 'src/user/decorator/current-user.decorator';
+import { User } from 'src/user/user.entity';
+import { ReportDto } from './dtos/report.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 
 
 @Controller('ticket')
@@ -21,8 +27,9 @@ export class ReportController {
     constructor(private reportService: ReportService){}
 
     @Post('/create')
-    async createTicket(@Body() body: CreateReportDto){
-        this.reportService.create(body.title, body.description, body.status, body.createdAt, body.updatedAt);
+    @UseGuards(AuthGuard)
+    async createTicket(@Body() body: CreateReportDto, @CurrentUser() user: User){
+        return this.reportService.create(body, user);
     }
 
     @Get('/:id')
